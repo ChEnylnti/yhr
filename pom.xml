@@ -27,6 +27,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <yhr.version>1.0-SNAPSHOT</yhr.version>
         <mybatis.version>3.0.3</mybatis.version>
+        <mybatis.plus.version>3.5.5</mybatis.plus.version>
     </properties>
 
     <dependencyManagement>
@@ -35,6 +36,11 @@
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis.plus.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.chenylnti</groupId>
