@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -30,6 +31,23 @@ public class SecurityConfig {
 
     @Autowired
     IHrService hrService;
+
+
+    /*
+    当我们登录成功之后，security会自动将用户信息存入到两个地方
+    1.httpsession
+    2.securityContextHolder 这个本质上是一个ThreadLocal，这个的特点是在哪个线程中存入的数据，就在哪个线程读取，换一个线程就读取不出来了
+    一般的流程是这样：
+    登录成功之后，虽然信息存入到了SecurityContextHolder中，在spring security后续的执行流程中，凡是需要获取当前用户信息的时候
+    都从SecurityContextHolder中获取，而不会从httpsession获取（因为并非所有系统都会选择把信息存入到HttpSession，例如有时候是jwt登录，信息会在Redis中）
+    ，当登录请求结束的时候，会将securityContextHolder中的信息清除（登录是一个线程，你不清除就清除不了了，因为下一个请求是别的线程）。
+    下一个请求到达的时候，会先从httpsession中读取登录用户信息，然后存入到securityContextHolder中，这样后续的流程中，就可以使用
+    securityContextHolder中的信息了
+    所以现在必须明确的指明需要存到哪个地方去
+         */
+
+
+
 
     //给jsonfilter配置AuthenticationManager
     @Bean
@@ -70,6 +88,8 @@ public class SecurityConfig {
                     }  resp.getWriter().write(new ObjectMapper().writeValueAsString(error));
         });
         jsonFilter.setAuthenticationManager(authenticationManager());
+        //把登录信息存到httpsession中
+        jsonFilter.setSecurityContextRepository(new HttpSessionSecurityContextRepository());
         return jsonFilter;
     }
 //     这个就是spring security 过滤器链，spring security中的所有功能都是通过这个链来提供的
@@ -111,6 +131,17 @@ public class SecurityConfig {
                     RespBean error = RespBean.error("尚未登录，请先登录");
                     resp.getWriter().write(new ObjectMapper().writeValueAsString(error));
                 }))
+                .logout(logout->{
+                    //注销地址
+                    logout.logoutUrl("/logout")
+                            .logoutSuccessHandler((req, resp, auth)->{
+                                //注销成功
+                                resp.setContentType("application/json; charset=utf-8");
+                                Hr principal = (Hr) auth.getPrincipal();
+                                principal.setPassword(null);
+                                resp.getWriter().write(new ObjectMapper().writeValueAsString(RespBean.ok("注销成功",principal)));
+                            });
+                })
         ;
         //把jsonfilter加到验证key-value的过滤器的前面
         http.addFilterBefore(jsonFilter(), UsernamePasswordAuthenticationFilter.class);
