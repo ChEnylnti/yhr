@@ -2,6 +2,7 @@ package io.chenylnti.yhr.framework.service;
 
 import io.chenylnti.yhr.framework.entity.Menu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.chenylnti.yhr.framework.entity.RespBean;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMenuService extends IService<Menu> {
 
+    RespBean getMenuByHrId();
 }

@@ -2,6 +2,10 @@ package io.chenylnti.yhr.framework.mapper;
 
 import io.chenylnti.yhr.framework.entity.Menu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.chenylnti.yhr.framework.entity.RespBean;
+import io.chenylnti.yhr.framework.entity.vo.MenuVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface MenuMapper extends BaseMapper<Menu> {
 
+    List<MenuVo> getMenusByHrId(Integer hrId);
 }

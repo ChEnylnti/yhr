@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.chenylnti.yhr.framework.mapper.MenuMapper">
-
+        <resultMap id="BaseResultMap" type="io.chenylnti.yhr.framework.entity.Menu">
+                <id property="id" column="id"/>
+                <result property="component" column="component"/>
+                <result property="enabled" column="enabled"/>
+                <result property="iconCls" column="icon_cls"/>
+                <result property="keepAlive" column="keep_alive"/>
+                <result property="name" column="name"/>
+                <result property="parentId" column="parent_id"/>
+                <result property="url" column="path"/>
+                <result property="path" column="path"/>
+                <result property="requireAuth" column="require_auth"/>
+        </resultMap>
+        <resultMap id="MenuWithChildren" type="io.chenylnti.yhr.framework.entity.vo.MenuVo" extends="BaseResultMap">
+                <collection property="children" ofType="io.chenylnti.yhr.framework.entity.vo.MenuVo">
+                        <id property="id" column="id2"/>
+                        <result property="component" column="component2"/>
+                        <result property="name" column="name2"/>
+                        <result property="path" column="path2"/>
+                </collection>
+        </resultMap>
+        <select id="getMenusByHrId" resultMap="MenuWithChildren">
+                select
+                m1.*,m2.id as id2,m2.`name` as name2,m2.path as path2,m2.component as component2
+                from menu m1,menu m2,menu_role mr,hr_role hrr
+                where m1.id=m2.parent_id
+                  AND m2.id=mr.mid
+                  AND mr.rid=hrr.rid
+                  AND hrr.hr_id=#{hrId}
+        </select>
 </mapper>

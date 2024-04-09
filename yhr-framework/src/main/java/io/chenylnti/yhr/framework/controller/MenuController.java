@@ -11,8 +11,8 @@ import org.springframework.stereotype.Controller;
  * @author chenylnti
  * @since 2024-04-06
  */
-@Controller
-@RequestMapping("/framework/menu")
+//@Controller
+//@RequestMapping("/framework/menu")
 public class MenuController {
 
 }
