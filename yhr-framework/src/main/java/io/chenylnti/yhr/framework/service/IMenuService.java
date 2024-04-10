@@ -3,6 +3,9 @@ package io.chenylnti.yhr.framework.service;
 import io.chenylnti.yhr.framework.entity.Menu;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.chenylnti.yhr.framework.entity.RespBean;
+import io.chenylnti.yhr.framework.entity.vo.MenuWithRole;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +18,6 @@ import io.chenylnti.yhr.framework.entity.RespBean;
 public interface IMenuService extends IService<Menu> {
 
     RespBean getMenuByHrId();
+
+    List<MenuWithRole> getAllMenusWithRole();
 }

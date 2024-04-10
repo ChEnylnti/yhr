@@ -5,6 +5,7 @@ import io.chenylnti.yhr.framework.entity.Hr;
 import io.chenylnti.yhr.framework.mapper.HrMapper;
 import io.chenylnti.yhr.framework.service.IHrService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class HrServiceImpl extends ServiceImpl<HrMapper, Hr> implements IHrService {
 
+    @Autowired
+    HrMapper hrMapper;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //mybatis-plus
@@ -30,6 +34,7 @@ public class HrServiceImpl extends ServiceImpl<HrMapper, Hr> implements IHrServi
         if (hr == null) {
             throw new UsernameNotFoundException("用户不存在，登录失败");
         }
+        hr.setRoles(hrMapper.getHrRolesByHrId(hr.getId()));
         return hr;
     }
 }

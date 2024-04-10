@@ -1,13 +1,16 @@
 package io.chenylnti.yhr.framework.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -62,6 +65,21 @@ public class Hr implements Serializable, UserDetails {
     private String userface;
 
     private String remark;
+
+    /*
+    因为用了mybatis-plus那么这里的hr就会和数据表中的hr一一对应起来，当然roles字段也会对应，但是实际上表中没有该字段
+    所有这个注解上表示表中无该字段
+     */
+    @TableField(exist = false)
+    private List<Role> roles;
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 
     public Integer getId() {
         return id;
@@ -138,7 +156,7 @@ public class Hr implements Serializable, UserDetails {
 //用户的角色/权限
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return roles.stream().map(r->new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
 
     public String getPassword() {

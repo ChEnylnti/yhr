@@ -2,6 +2,9 @@ package io.chenylnti.yhr.framework.mapper;
 
 import io.chenylnti.yhr.framework.entity.Hr;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.chenylnti.yhr.framework.entity.Role;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface HrMapper extends BaseMapper<Hr> {
 
+    List<Role> getHrRolesByHrId(Integer hrId);
 }

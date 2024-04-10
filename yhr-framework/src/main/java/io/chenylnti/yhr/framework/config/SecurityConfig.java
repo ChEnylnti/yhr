@@ -6,20 +6,34 @@ package io.chenylnti.yhr.framework.config;/**
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.chenylnti.yhr.framework.entity.Hr;
 import io.chenylnti.yhr.framework.entity.RespBean;
+import io.chenylnti.yhr.framework.entity.Role;
+import io.chenylnti.yhr.framework.entity.vo.MenuWithRole;
 import io.chenylnti.yhr.framework.service.IHrService;
+import io.chenylnti.yhr.framework.service.IMenuService;
 import org.apache.ibatis.javassist.expr.NewArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.*;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authorization.AuthenticatedAuthorizationManager;
+import org.springframework.security.authorization.AuthorizationDecision;
+import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.util.AntPathMatcher;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author:ChEnylnti
@@ -31,6 +45,10 @@ public class SecurityConfig {
 
     @Autowired
     IHrService hrService;
+    @Autowired
+    IMenuService menuService;
+
+    AntPathMatcher antPathMatcher = new AntPathMatcher();
 
 
     /*
@@ -97,7 +115,50 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         //拦截所有请求，但是不经过任何过滤器
 //        return new DefaultSecurityFilterChain(new AntPathRequestMatcher("/**"));
-        http.authorizeHttpRequests(p->p.anyRequest().authenticated())
+        http.authorizeHttpRequests(p->p.anyRequest().access((authentication, object) -> {
+            boolean granted = false;
+            boolean isMatch = false;
+            //1.根据当前请求分析出来当前请求属于menu中的哪一种http://localhost:8080/personnel/ec/hello
+            //1.1 获取当前请求url地址
+            String requestURI = object.getRequest().getRequestURI();
+            System.out.println(requestURI);
+            //1.2 和menu表中的记录进行比较
+            List<MenuWithRole> menuWithRoles = menuService.getAllMenusWithRole();
+            Authentication auth = authentication.get();
+            for (MenuWithRole menuWithRole : menuWithRoles) {
+                if (antPathMatcher.match(menuWithRole.getUrl(),requestURI)) {
+                    isMatch = true;
+                    //如果匹配上了，说明当前请求的菜单就找到了
+                    //2.根据第一步分析的结果，进而分析出来当前menu需要哪些角色才能访问（menu_role）
+                    List<Role> roles = menuWithRole.getRoles();
+                    System.out.println(roles);
+                    //3.判断当前用户是否具备本次请求所需要的角色
+                    //获取当前登录用户所具备的角色
+                    Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+                    for (GrantedAuthority authority : authorities) {
+                        for (Role role : roles) {
+                            if (authority.getAuthority().equals(role.getName())) {
+                                //说明当前用户具备所需要的角色
+                                granted = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            //也有可能for循环结束了都没有匹配上
+            if (!isMatch){
+                //例如http://localhost:8080/menus
+                //此时，判断用户是否已经登录，如果登录，则允许访问，否则不允许
+                if (auth instanceof UsernamePasswordAuthenticationToken){
+                    //说明用户登录了
+                    granted = true;
+                }
+            }
+
+            //granted为true表示请求通过，granted为false表示用户权限不足，请求未通过
+            return new AuthorizationDecision(granted);
+        }))
                 .formLogin(f->f.usernameParameter("username")
                         .passwordParameter("password")
                         .loginProcessingUrl("/login")

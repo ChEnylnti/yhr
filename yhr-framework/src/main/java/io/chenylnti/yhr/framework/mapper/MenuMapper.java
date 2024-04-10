@@ -4,6 +4,7 @@ import io.chenylnti.yhr.framework.entity.Menu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.chenylnti.yhr.framework.entity.RespBean;
 import io.chenylnti.yhr.framework.entity.vo.MenuVo;
+import io.chenylnti.yhr.framework.entity.vo.MenuWithRole;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ import java.util.List;
 public interface MenuMapper extends BaseMapper<Menu> {
 
     List<MenuVo> getMenusByHrId(Integer hrId);
+
+    List<MenuWithRole> getAllMenusWithRole();
 }

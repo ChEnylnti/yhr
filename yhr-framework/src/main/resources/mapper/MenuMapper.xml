@@ -9,7 +9,7 @@
                 <result property="keepAlive" column="keep_alive"/>
                 <result property="name" column="name"/>
                 <result property="parentId" column="parent_id"/>
-                <result property="url" column="path"/>
+                <result property="url" column="url"/>
                 <result property="path" column="path"/>
                 <result property="requireAuth" column="require_auth"/>
         </resultMap>
@@ -21,6 +21,13 @@
                         <result property="path" column="path2"/>
                 </collection>
         </resultMap>
+        <resultMap id="MenuWithRole" type="io.chenylnti.yhr.framework.entity.vo.MenuWithRole" extends="BaseResultMap">
+                <collection property="roles" ofType="io.chenylnti.yhr.framework.entity.Role">
+                        <id property="id" column="rid"/>
+                        <result property="name" column="rname"/>
+                        <result property="nameZh" column="rnameZh"/>
+                </collection>
+        </resultMap>
         <select id="getMenusByHrId" resultMap="MenuWithChildren">
                 select
                 m1.*,m2.id as id2,m2.`name` as name2,m2.path as path2,m2.component as component2
@@ -29,5 +36,16 @@
                   AND m2.id=mr.mid
                   AND mr.rid=hrr.rid
                   AND hrr.hr_id=#{hrId}
+        </select>
+
+        <select id="getAllMenusWithRole" resultMap="MenuWithRole">
+                SELECT
+                        m.*,r.id as rid,r.`name` as rname,r.name_zh as rnameZh
+                FROM menu m
+                             LEFT JOIN menu_role mr
+                                       ON m.id=mr.mid
+                             LEFT JOIN role r
+                                       ON mr.rid=r.id
+                ORDER BY m.id
         </select>
 </mapper>

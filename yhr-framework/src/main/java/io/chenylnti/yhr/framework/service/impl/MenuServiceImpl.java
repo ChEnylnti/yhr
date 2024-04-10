@@ -4,6 +4,7 @@ import io.chenylnti.yhr.framework.entity.Hr;
 import io.chenylnti.yhr.framework.entity.Menu;
 import io.chenylnti.yhr.framework.entity.RespBean;
 import io.chenylnti.yhr.framework.entity.vo.MenuVo;
+import io.chenylnti.yhr.framework.entity.vo.MenuWithRole;
 import io.chenylnti.yhr.framework.mapper.MenuMapper;
 import io.chenylnti.yhr.framework.service.IMenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -33,5 +34,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         Hr principal = (Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<MenuVo> menus = menuMapper.getMenusByHrId(principal.getId());
         return menus!=null&& !menus.isEmpty() ?RespBean.ok("menu加载成功",menus):RespBean.error("未加载到菜单数据");
+    }
+
+    @Override
+    public List<MenuWithRole> getAllMenusWithRole() {
+        return menuMapper.getAllMenusWithRole();
     }
 }
