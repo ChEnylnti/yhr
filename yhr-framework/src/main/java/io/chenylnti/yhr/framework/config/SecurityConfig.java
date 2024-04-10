@@ -121,7 +121,6 @@ public class SecurityConfig {
             //1.根据当前请求分析出来当前请求属于menu中的哪一种http://localhost:8080/personnel/ec/hello
             //1.1 获取当前请求url地址
             String requestURI = object.getRequest().getRequestURI();
-            System.out.println(requestURI);
             //1.2 和menu表中的记录进行比较
             List<MenuWithRole> menuWithRoles = menuService.getAllMenusWithRole();
             Authentication auth = authentication.get();
@@ -155,7 +154,9 @@ public class SecurityConfig {
                     granted = true;
                 }
             }
-
+            if (!granted){
+                System.out.println("158"+requestURI);
+            }
             //granted为true表示请求通过，granted为false表示用户权限不足，请求未通过
             return new AuthorizationDecision(granted);
         }))

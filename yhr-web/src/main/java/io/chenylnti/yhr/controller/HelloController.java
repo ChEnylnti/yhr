@@ -3,7 +3,6 @@ package io.chenylnti.yhr.controller;/**
  * @date 2024/4/6
  */
 
-import io.chenylnti.yhr.system.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,11 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class HelloController {
-    @Autowired
-    HelloService helloService;
     @GetMapping("/hello")
     public String hello(){
-        return helloService.hello();
+        return "hello yhr";
     }
     @GetMapping("/employee/basic/hello")
     public String hello2(){
