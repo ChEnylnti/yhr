@@ -130,7 +130,6 @@ public class SecurityConfig {
                     //如果匹配上了，说明当前请求的菜单就找到了
                     //2.根据第一步分析的结果，进而分析出来当前menu需要哪些角色才能访问（menu_role）
                     List<Role> roles = menuWithRole.getRoles();
-                    System.out.println(roles);
                     //3.判断当前用户是否具备本次请求所需要的角色
                     //获取当前登录用户所具备的角色
                     Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();

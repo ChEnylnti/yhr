@@ -36,6 +36,7 @@
                   AND m2.id=mr.mid
                   AND mr.rid=hrr.rid
                   AND hrr.hr_id=#{hrId}
+                order by m1.id
         </select>
 
         <select id="getAllMenusWithRole" resultMap="MenuWithRole">

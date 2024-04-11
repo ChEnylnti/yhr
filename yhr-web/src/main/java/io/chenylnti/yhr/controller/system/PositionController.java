@@ -3,13 +3,12 @@ package io.chenylnti.yhr.controller.system;/**
  * @date 2024/4/10
  */
 
+import io.chenylnti.yhr.framework.entity.RespBean;
 import io.chenylnti.yhr.framework.entity.RespPageBean;
+import io.chenylnti.yhr.system.entity.Position;
 import io.chenylnti.yhr.system.service.IPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author:ChEnylnti
@@ -25,5 +24,10 @@ public class PositionController {
     @GetMapping
     public RespPageBean getPositionsByPage(@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "10") Integer size) {
         return positionService.getPositionsByPage(page,size);
+    }
+
+    @PutMapping
+    public RespBean updatePositionById(@RequestBody Position position) {
+        return positionService.updateById(position)?RespBean.ok("更新成功"):RespBean.error("更新失败");
     }
 }
