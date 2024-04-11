@@ -18,4 +18,6 @@ public interface IPositionService extends IService<Position> {
     RespPageBean getPositionsByPage(Integer page, Integer size);
 
     RespBean addPosition(Position position);
+
+    RespBean deletePositionById(Integer id);
 }

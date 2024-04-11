@@ -41,4 +41,9 @@ public class PositionController {
     public RespBean addPosition(@RequestBody Position position) {
         return positionService.addPosition(position);
     }
+
+    @DeleteMapping("/{id}")
+    public RespBean deletePositionById(@PathVariable Integer id) {
+        return positionService.deletePositionById(id);
+    }
 }

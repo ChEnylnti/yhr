@@ -47,4 +47,14 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
         }
 
     }
+
+    @Override
+    public RespBean deletePositionById(Integer id) {
+        Position one = getById(id);
+        if (one == null) {
+            //说明要删除的数据不存在
+            return RespBean.error("数据不存在，删除失败");
+        }
+        return removeById(id)?RespBean.ok("删除成功"):RespBean.error("删除失败");
+    }
 }
