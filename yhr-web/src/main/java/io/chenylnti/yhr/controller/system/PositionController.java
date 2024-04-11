@@ -8,6 +8,7 @@ import io.chenylnti.yhr.framework.entity.RespPageBean;
 import io.chenylnti.yhr.system.entity.Position;
 import io.chenylnti.yhr.system.service.IPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -34,5 +35,10 @@ public class PositionController {
     @PutMapping
     public RespBean updatePositionById(@RequestBody Position position) {
         return positionService.updateById(position)?RespBean.ok("更新成功"):RespBean.error("更新失败");
+    }
+
+    @PostMapping
+    public RespBean addPosition(@RequestBody Position position) {
+        return positionService.addPosition(position);
     }
 }
