@@ -21,6 +21,11 @@ import org.springframework.web.bind.annotation.*;
 public class PositionController {
     @Autowired
     IPositionService positionService;
+
+    @GetMapping("/{id}")
+    public RespBean getPositionById(@PathVariable("id") Integer id) {
+        return RespBean.ok(null,positionService.getById(id));
+    }
     @GetMapping
     public RespPageBean getPositionsByPage(@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "10") Integer size) {
         return positionService.getPositionsByPage(page,size);
