@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
  */
 
 @Configuration
-@MapperScan(basePackages = "io.chenylnti.yhr.*.mapper")
+//@MapperScan(basePackages = "io.chenylnti.yhr.*.mapper")
 public class MybatisPlusConfig {
 
     @Bean

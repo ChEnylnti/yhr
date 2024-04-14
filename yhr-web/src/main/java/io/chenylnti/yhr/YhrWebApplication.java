@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-//@MapperScan(basePackages = "io.chenylnti.yhr.*.mapper")
+@MapperScan(basePackages = "io.chenylnti.yhr.*.mapper")
 public class YhrWebApplication {
 
     public static void main(String[] args) {

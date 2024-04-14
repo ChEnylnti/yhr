@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.chenylnti.yhr.system.mapper.DepartmentMapper">
+        <resultMap id="BaseResultMap" type="io.chenylnti.yhr.system.entity.Department">
+                <id column="id" property="id"/>
+                <result column="name" property="name"/>
+                <result column="parentId" property="parent_id"/>
+                <result column="depPath" property="dep_path"/>
+                <result column="enabled" property="enabled"/>
+                <result column="isParent" property="is_parent"/>
+        </resultMap>
+        <resultMap id="DepartmentWithChildren" type="io.chenylnti.yhr.system.entity.Department" extends="BaseResultMap">
+                <collection property="children" ofType="io.chenylnti.yhr.system.entity.Department"
+                            select="io.chenylnti.yhr.system.mapper.DepartmentMapper.getAllDepartmentsByParentId" column="id"/>
+        </resultMap>
+        <sql id="Base_Column_List">
+                id,name,parent_id,dep_path,enabled,is_parent
+        </sql>
+        <select id="getAllDepartmentsByParentId" resultMap="DepartmentWithChildren">
+                select * from department where parent_id=#{id}
+        </select>
+
+<!--        <select id="addDep" parameterType="io.chenylnti.yhr.system.entity.Department" statementType="CALLABLE" useCache="false">-->
+<!--                call-->
+<!--                        addDep(#{department.name,mode=IN,jdbcType=VARCHAR},-->
+<!--                               #{parentId,mode=IN,jdbcType=INTEGER},-->
+<!--                               #{enabled,mode=IN,jdbcType=BOOLEAN},-->
+<!--                               #{result,mode=OUT,jdbcType=INTEGER},-->
+<!--                               #{id,mode=OUT,jdbcType=INTEGER})-->
+<!--        </select>-->
 
 </mapper>

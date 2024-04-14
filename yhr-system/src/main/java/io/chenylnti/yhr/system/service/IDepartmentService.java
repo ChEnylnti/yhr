@@ -2,6 +2,9 @@ package io.chenylnti.yhr.system.service;
 
 import io.chenylnti.yhr.system.entity.Department;
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.chenylnti.yhr.system.entity.vo.DepartmentWithChildren;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IDepartmentService extends IService<Department> {
 
+    List<Department> getAllDepartments();
+
+    boolean addDepartment(Department department);
+
+    boolean deleteDepartment(Integer id);
 }

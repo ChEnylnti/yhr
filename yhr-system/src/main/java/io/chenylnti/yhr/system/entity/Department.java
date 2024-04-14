@@ -1,8 +1,11 @@
 package io.chenylnti.yhr.system.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -31,6 +34,63 @@ public class Department implements Serializable {
     private Boolean enabled;
 
     private Boolean isParent;
+
+
+
+    @TableField(exist = false)
+    private List<Department> children;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Department that = (Department) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(parentId, that.parentId) && Objects.equals(depPath, that.depPath) && Objects.equals(enabled, that.enabled) && Objects.equals(isParent, that.isParent) && Objects.equals(children, that.children);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    public Department() {
+    }
+
+    public Department(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", parentId=" + parentId +
+                ", depPath='" + depPath + '\'' +
+                ", enabled=" + enabled +
+                ", isParent=" + isParent +
+                ", children=" + children +
+                '}';
+    }
+
+    public Boolean getParent() {
+        return isParent;
+    }
+
+    public void setParent(Boolean parent) {
+        isParent = parent;
+    }
+
+    public List<Department> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Department> children) {
+        this.children = children;
+    }
+
+
 
     public Integer getId() {
         return id;
@@ -80,15 +140,4 @@ public class Department implements Serializable {
         this.isParent = isParent;
     }
 
-    @Override
-    public String toString() {
-        return "Department{" +
-            "id = " + id +
-            ", name = " + name +
-            ", parentId = " + parentId +
-            ", depPath = " + depPath +
-            ", enabled = " + enabled +
-            ", isParent = " + isParent +
-        "}";
-    }
 }
