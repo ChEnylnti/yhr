@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.chenylnti.yhr.framework.mapper.HrMapper">
+    <resultMap id="BaseResultMap" type="io.chenylnti.yhr.framework.entity.Hr">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="telephone" property="telephone"/>
+        <result column="address" property="address"/>
+        <result column="enabled" property="enabled"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="userface" property="userface"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    <resultMap id="HrWithRoles" type="io.chenylnti.yhr.framework.entity.Hr" extends="BaseResultMap">
+        <collection property="roles" ofType="io.chenylnti.yhr.framework.entity.Role">
+            <id column="rid" property="id"/>
+            <result column="rname" property="name"/>
+            <result column="rnameZh" property="nameZh"/>
+        </collection>
+    </resultMap>
+    <delete id="deleteAllHrRoles">
+        delete from hr_role
+        where hr_id=#{id}
+    </delete>
+
     <select id="getHrRolesByHrId" resultType="io.chenylnti.yhr.framework.entity.Role">
         SELECT
             r.*
@@ -9,4 +33,27 @@
             r.id=hrr.rid
           AND hrr.hr_id=#{hrid}
     </select>
+<!--    <select id="getAllHrs" resultType="io.chenylnti.yhr.framework.entity.Hr">-->
+<!--        select * from hr where id!=#{hrId}-->
+<!--        <if test="keywords!=null">-->
+<!--            and name like concat('%',#{keywords},'%')-->
+<!--        </if>-->
+<!--        order by id-->
+<!--    </select>-->
+        <select id="getAllHrs" resultMap="HrWithRoles">
+        SELECT
+            hr.id,hr.`name`,hr.phone,hr.telephone,hr.address,hr.enabled,hr.username,hr.userface,hr.remark,
+            r.id as rid,r.`name` as rname,r.name_zh as rnameZh
+        FROM hr
+                 LEFT JOIN hr_role hrr
+                           ON hr.id=hrr.hr_id
+                 LEFT JOIN role r
+                           ON hrr.rid=r.id
+        where hr.id!=#{hrId}
+        <if test="keywords != null">
+            and hr.name like concat('%',#{keywords},'%')
+        </if>
+        order by hr.id
+    </select>
+
 </mapper>

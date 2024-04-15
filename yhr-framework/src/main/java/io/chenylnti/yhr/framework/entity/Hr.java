@@ -3,6 +3,7 @@ package io.chenylnti.yhr.framework.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -186,16 +187,17 @@ public class Hr implements Serializable, UserDetails {
     @Override
     public String toString() {
         return "Hr{" +
-            "id = " + id +
-            ", name = " + name +
-            ", phone = " + phone +
-            ", telephone = " + telephone +
-            ", address = " + address +
-            ", enabled = " + enabled +
-            ", username = " + username +
-            ", password = " + password +
-            ", userface = " + userface +
-            ", remark = " + remark +
-        "}";
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", address='" + address + '\'' +
+                ", enabled=" + enabled +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", userface='" + userface + '\'' +
+                ", remark='" + remark + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

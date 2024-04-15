@@ -38,7 +38,6 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         department.setEnabled(true);
         //先查找父亲信息
         Department parentDepartment = baseMapper.selectById(department.getParentId());
-        System.out.println("pd1"+parentDepartment);
         //有父亲，则将父亲的isParent变为true
         parentDepartment.setIsParent(true);
         //将父亲信息的is_parent改为1

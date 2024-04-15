@@ -2,4 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.chenylnti.yhr.framework.mapper.RoleMapper">
 
+    <insert id="addRoleToCurrentHr">
+        INSERT INTO hr_role
+            (hr_id,rid) VALUES (#{hId},#{rId})
+    </insert>
+    <delete id="deleteRoleByHrId">
+        DELETE FROM hr_role
+        WHERE
+            hr_role.hr_id=#{hId}
+          AND
+            hr_role.rid=#{rId}
+    </delete>
 </mapper>
