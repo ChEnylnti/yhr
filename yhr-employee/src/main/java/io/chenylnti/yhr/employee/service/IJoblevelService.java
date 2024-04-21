@@ -1,7 +1,9 @@
-package io.chenylnti.yhr.system.service;
+package io.chenylnti.yhr.employee.service;
 
-import io.chenylnti.yhr.system.entity.Joblevel;
+import io.chenylnti.yhr.employee.entity.Joblevel;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -9,8 +11,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author chenylnti
- * @since 2024-04-10
+ * @since 2024-04-17
  */
 public interface IJoblevelService extends IService<Joblevel> {
+
+    List<Joblevel> getAllJobLevels();
 
 }

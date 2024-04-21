@@ -50,7 +50,7 @@ public class HrServiceImpl extends ServiceImpl<HrMapper, Hr> implements IHrServi
 
     @Override
     public List<Hr> getAllHrs(String keywords) {
-        //查询出了当前用户的所以用户
+        //查询除了当前用户的所以用户
         return hrMapper.getAllHrs(HrUtils.getCurrentHr().getId(),keywords);
     }
 

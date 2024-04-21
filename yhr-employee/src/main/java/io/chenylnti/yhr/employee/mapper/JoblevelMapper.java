@@ -1,6 +1,6 @@
-package io.chenylnti.yhr.system.mapper;
+package io.chenylnti.yhr.employee.mapper;
 
-import io.chenylnti.yhr.system.entity.Joblevel;
+import io.chenylnti.yhr.employee.entity.Joblevel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author chenylnti
- * @since 2024-04-10
+ * @since 2024-04-17
  */
 public interface JoblevelMapper extends BaseMapper<Joblevel> {
 

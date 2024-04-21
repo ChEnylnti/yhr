@@ -5,6 +5,8 @@ import io.chenylnti.yhr.framework.entity.RespPageBean;
 import io.chenylnti.yhr.system.entity.Position;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -20,4 +22,6 @@ public interface IPositionService extends IService<Position> {
     RespBean addPosition(Position position);
 
     RespBean deletePositionById(Integer id);
+
+    List<Position> getAllPositions();
 }

@@ -14,6 +14,10 @@ public class RespBean {
     private String message;
     private Object data;
 
+    public static RespBean build(){
+        return new RespBean();
+    }
+
 
     public static RespBean ok(String message,Object data) {
        return new RespBean(200, message, data);

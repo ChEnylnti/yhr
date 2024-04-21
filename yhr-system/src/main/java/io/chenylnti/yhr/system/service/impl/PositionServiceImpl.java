@@ -57,4 +57,9 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
         }
         return removeById(id)?RespBean.ok("删除成功"):RespBean.error("删除失败");
     }
+
+    @Override
+    public List<Position> getAllPositions() {
+        return baseMapper.selectList(null);
+    }
 }

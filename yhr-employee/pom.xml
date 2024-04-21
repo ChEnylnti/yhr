@@ -20,6 +20,10 @@
             <groupId>io.chenylnti</groupId>
             <artifactId>yhr-framework</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.chenylnti</groupId>
+            <artifactId>yhr-system</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,4 +1,4 @@
-package io.chenylnti.yhr.system.entity;
+package io.chenylnti.yhr.employee.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author chenylnti
- * @since 2024-04-10
+ * @since 2024-04-17
  */
 public class Joblevel implements Serializable {
 

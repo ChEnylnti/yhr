@@ -17,7 +17,6 @@
         <module>yhr-framework</module>
         <module>yhr-system</module>
         <module>yhr-employee</module>
-        <module>yhr-salary</module>
         <module>yhr-web</module>
     </modules>
 
