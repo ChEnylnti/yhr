@@ -179,8 +179,6 @@ public class Employee implements Serializable {
     private Joblevel joblevel;
     @TableField(exist = false)
     private Position position;
-    @TableField(exist = false)
-    private Salary salary;
 
     public Nation getNation() {
         return nation;
@@ -220,14 +218,6 @@ public class Employee implements Serializable {
 
     public void setPosition(Position position) {
         this.position = position;
-    }
-
-    public Salary getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Salary salary) {
-        this.salary = salary;
     }
 
     public Integer getId() {

@@ -1,7 +1,11 @@
 package io.chenylnti.yhr.employee.service;
 
+import io.chenylnti.yhr.employee.entity.Employee;
 import io.chenylnti.yhr.employee.entity.Salary;
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.chenylnti.yhr.employee.entity.vo.EmployeeWithSalary;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +18,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface ISalaryService extends IService<Salary> {
 
     void deleteSalaryEmp(Integer id);
+
+    List<EmployeeWithSalary> getSalaryOwns(Integer id);
+
 }

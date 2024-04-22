@@ -2,6 +2,8 @@ package io.chenylnti.yhr.employee.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -58,6 +60,8 @@ public class Salary implements Serializable {
     /**
      * 启用时间
      */
+
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "Asia/Shanghai")
     private LocalDateTime createDate;
 
     /**

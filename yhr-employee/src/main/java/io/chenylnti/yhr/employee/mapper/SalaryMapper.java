@@ -1,7 +1,11 @@
 package io.chenylnti.yhr.employee.mapper;
 
+import io.chenylnti.yhr.employee.entity.Employee;
 import io.chenylnti.yhr.employee.entity.Salary;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.chenylnti.yhr.employee.entity.vo.EmployeeWithSalary;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +18,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface SalaryMapper extends BaseMapper<Salary> {
 
     void deleteSalaryEmp(Integer id);
+
+    List<EmployeeWithSalary> getSalaryOwns();
 }
