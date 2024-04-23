@@ -5,3 +5,15 @@ spring:
     url: jdbc:mysql://localhost:33068/yhr?serverTimezone=Asia/Shanghai
 server:
   port: 8080
+
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#mybatis:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#
+#logging:
+#  level:
+#    org.springframework.jdbc.core.JdbcTemplate: DEBUG
+

@@ -46,19 +46,52 @@
             <result column="medical_per" property="medicalPer" jdbcType="REAL"/>
             <result column="accumulation_fund_base" property="accumulationFundBase" jdbcType="INTEGER"/>
             <result column="accumulation_fund_per" property="accumulationFundPer" jdbcType="REAL"/>
-            <result column="name" property="name" jdbcType="VARCHAR"/>
+            <result column="sname" property="name" jdbcType="VARCHAR"/>
         </association>
     </resultMap>
+    <insert id="insertEmpSalary">
+        INSERT INTO empsalary
+            (eid,sid) VALUES(#{eId},#{sId})
+    </insert>
+    <update id="updateEmpSalary">
+        UPDATE empsalary
+        SET sid = #{sId}
+        WHERE eid = #{eId}
+    </update>
     <delete id="deleteSalaryEmp">
         delete from empsalary
         where eid = #{id}
     </delete>
     <select id="getSalaryOwns" resultMap="EmployeeWithSalary">
-        SELECT employee.`name`,salary.id,salary.basic_salary,salary.bonus,salary.lunch_salary,salary.all_salary,salary.pension_base,salary.pension_per
+        SELECT employee.`name`,salary.id,salary.basic_salary,salary.bonus,salary.lunch_salary,salary.all_salary,salary.traffic_salary,salary.pension_base,salary.pension_per
              ,salary.create_date,salary.medical_base,salary.medical_per,salary.accumulation_fund_base,salary.accumulation_fund_per,salary.`name` as sname
+
         from empsalary,employee,salary
         where sid = #{id}
           AND empsalary.eid = employee.id
           AND empsalary.sid = salary.id
+    </select>
+    <select id="getAllSalaryWithSalaryByPage" resultMap="EmployeeWithSalary">
+        SELECT employee.id,employee.`name`,salary.id as sid,salary.basic_salary,salary.bonus,salary.lunch_salary,salary.traffic_salary,salary.all_salary,salary.pension_base,salary.pension_per
+             ,salary.create_date,salary.medical_base,salary.medical_per,salary.accumulation_fund_base,salary.accumulation_fund_per,salary.`name` as sname
+        from employee
+                 LEFT JOIN
+             empsalary ON employee.id = empsalary.eid
+                 LEFT JOIN salary
+                ON salary.id = empsalary.sid
+        <where>
+            <if test="emp.name !=null and emp.name!=''">
+                employee.name like concat('%',#{emp.name},'%')
+            </if>
+
+        </where>
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+    </select>
+    <select id="getEmpNum" resultType="java.lang.Integer">
+        select count(*)
+        from empsalary
+        where eid = #{id}
     </select>
 </mapper>

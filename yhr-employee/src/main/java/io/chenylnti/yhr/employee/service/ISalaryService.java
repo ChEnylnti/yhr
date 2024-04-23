@@ -21,4 +21,11 @@ public interface ISalaryService extends IService<Salary> {
 
     List<EmployeeWithSalary> getSalaryOwns(Integer id);
 
+    List<EmployeeWithSalary> getAllSalaryWithSalaryByPage(Integer page,Integer size,Employee employee);
+
+    int updateEmpSalary(Integer eId, Integer sId);
+
+    int getEmpNum(Integer integer);
+
+    int insertEmpSalary(Integer eId, Integer sId);
 }
